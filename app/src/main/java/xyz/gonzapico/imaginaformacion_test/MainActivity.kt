@@ -6,7 +6,6 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import xyz.gonzapico.imaginaformacion_test.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -32,10 +31,14 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        binding.fab.setOnClickListener {
+            showTimePickerDialog()
         }
+    }
+
+    private fun showTimePickerDialog() {
+        val datePicker = TimePickerFragment()
+        datePicker.show(supportFragmentManager, "timePicker")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
