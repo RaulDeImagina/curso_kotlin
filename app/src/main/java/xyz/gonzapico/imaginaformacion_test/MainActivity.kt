@@ -1,18 +1,31 @@
 package xyz.gonzapico.imaginaformacion_test
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
+import android.widget.Toolbar
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import xyz.gonzapico.imaginaformacion_test.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
+
+    private lateinit var drawer: DrawerLayout
+    private lateinit var toogle: ActionBarDrawerToggle
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
+    class Persona(val nombre : String, val apellido : String, val sexo : Sexo)
+    enum class Sexo { MASCULINO, FEMENINO}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +35,9 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         // Contenido
-        val listOfPeople = ElementsAdapter(arrayOf("Ana", "Paco", "Luis"))
+        val  listOfPeople = ElementsAdapter(arrayOf(Persona("ALBERTO","PEREZ",Sexo.MASCULINO),
+            Persona("SONIA","MARTINEZ",Sexo.FEMENINO),
+            Persona("ADRIAN","PEREZ",Sexo.MASCULINO)))
         // RecyclerView
         val rvListOfElements = binding.rvListOfElements
         // Adapter
@@ -36,6 +51,20 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+
+        val toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        drawer = findViewById(R.id.drawer_layout)
+
+        toogle = ActionBarDrawerToggle(this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawer.addDrawerListener(toogle)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
+
+        val navigationView : NavigationView = findViewById(R.id.nav_view)
+        navigationView.setNavigationItemSelectedListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -52,5 +81,27 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.action_op2 -> Toast.makeText(this, "Opcion 2", Toast.LENGTH_SHORT).show()
+            R.id.action_op1 -> Toast.makeText(this, "Opcion 1", Toast.LENGTH_SHORT).show()
+            R.id.action_settings -> Toast.makeText(this, "setting", Toast.LENGTH_SHORT).show()
+        }
+
+        drawer.closeDrawer(GravityCompat.START)
+        return true
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?)
+    {
+        super.onPostCreate(savedInstanceState)
+        toogle.syncState()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        toogle.onConfigurationChanged(newConfig)
     }
 }
