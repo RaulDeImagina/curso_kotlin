@@ -37,7 +37,6 @@ class ElementsAdapter(private val dataSet: Array<MainActivity.Persona>) :
 
         // Obtenemos el elemento de UI y reemplzamos el
         // contenido de la vista con esos valores
-        viewHolder.textView.text = dataSet[position]
         viewHolder.textView.text = dataSet[position].nombre
         viewHolder.textView2.text = dataSet[position].apellido
         viewHolder.textView3.text = dataSet[position].sexo.toString()
