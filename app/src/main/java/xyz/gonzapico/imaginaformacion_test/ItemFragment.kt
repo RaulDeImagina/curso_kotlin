@@ -23,7 +23,7 @@ import xyz.gonzapico.imaginaformacion_test.placeholder.PlaceholderContent
 class ItemFragment : Fragment(), MyItemRecyclerViewAdapter.OnItemClickListener {
 
     private var columnCount = 1
-    private var dualPane: Boolean = false
+    private var dualPane: Boolean = true
     private var curCheckPosition = 0
 
     private fun showDetails(index: Int) {
@@ -42,7 +42,7 @@ class ItemFragment : Fragment(), MyItemRecyclerViewAdapter.OnItemClickListener {
 
                 // Execute a transaction, replacing any existing fragment
                 // with this one inside the frame.
-                parentFragmentManager.beginTransaction().apply {
+                parentFragmentManager.beginTransaction().setCustomAnimations(R.anim.exit_left_side,R.anim.translate_left_side).apply {
                     if (index == 0) {
                         replace(R.id.details, details)
                     }
@@ -59,6 +59,7 @@ class ItemFragment : Fragment(), MyItemRecyclerViewAdapter.OnItemClickListener {
                 putExtra(DetailActivity.INDEX, index)
             }
             startActivity(intent)
+            activity?.overridePendingTransition(R.anim.translate_left_side, R.anim.exit_left_side);
         }
     }
 
