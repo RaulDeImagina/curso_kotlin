@@ -1,9 +1,7 @@
 package xyz.gonzapico.imaginaformacion_test
 
-data class UserModel(val name: String,
-                     val username: String,
-                     val phone: String){
+data class UserModel (val name: String, val surname: String, val birthYear: Int) {
     override fun toString(): String {
-        return "$name ($username) - $phone"
+        return "$name $surname - $birthYear"
     }
 }
