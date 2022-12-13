@@ -7,11 +7,17 @@ import kotlinx.coroutines.launch
 
 class UsersViewModel : ViewModel() {
 
-    val usersModel = MutableLiveData<List<UserModel>>()
+    val usersModel = MutableLiveData<UserListModel>()
 
     fun getUsers() {
-        viewModelScope.launch {
-            usersModel.value = DataNetwork.retrofit.getUsers()
-        }
+        val usersList = createGroupOfUsers()
+        val userListModel = UserListModel(usersList)
+        usersModel.postValue(userListModel)
     }
+
+    private fun createGroupOfUsers() = listOf(
+        UserModel("Alberto", "Perez", "1986"),
+        UserModel("Sonia", "Martinez", "1987"),
+        UserModel("Adrián", "Pérez", "2020")
+    )
 }
