@@ -10,6 +10,7 @@ import xyz.gonzapico.imaginaformacion_test.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity(), UserView {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var userPresenter : UserPresenter
     private val userListViewModel: UsersViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,8 +19,10 @@ class MainActivity : AppCompatActivity(), UserView {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        setUpViewModel()
-        getUsers()
+        userPresenter = UserPresenter(this)
+
+        //setUpViewModel()
+        //getUsers()
 
     }
 
@@ -31,7 +34,7 @@ class MainActivity : AppCompatActivity(), UserView {
 
     private fun setUpViewModel() {
         userListViewModel.usersModel.observe(this, { userList ->
-            loadUsers(userList)
+            loadUsers(userList.users)
         })
     }
 
